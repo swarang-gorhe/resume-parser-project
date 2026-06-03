@@ -69,14 +69,15 @@ class ResumeAgent:
         
         # Fallback: regex-based extraction
         education_entries = []
-        year_pattern = r"\b(19|20)\d{2}\b"
+        year_pattern = r"\b(?:19|20)\d{2}\b"
         years = re.findall(year_pattern, text)
         if years:
+            graduation_year = int(years[0]) if years else None
             education_entries.append({
                 "institution": "Unknown",
                 "degree": "Degree",
                 "field_of_study": "Field",
-                "graduation_year": int(years[0]) if years else None,
+                "graduation_year": graduation_year,
             })
         return education_entries
 
