@@ -33,14 +33,14 @@ class FileReader:
 
     @staticmethod
     def _read_pdf(file_path: Path) -> str:
-        """Extract text from PDF using pdfplumber, handling all pages."""
-        text_parts = []
+        """Extract text from PDF using pdfplumber."""
+        text = ""
         with pdfplumber.open(file_path) as pdf:
-            for page_num, page in enumerate(pdf.pages, 1):
+            for page_num, page in enumerate(pdf.pages):
                 page_text = page.extract_text() or ""
-                if page_text.strip():
-                    text_parts.append(page_text)
-        return "\n".join(text_parts)
+                if page_text:
+                    text += page_text + "\n\n"  # Add page separator for multi-page resumes
+        return text
 
     @staticmethod
     def _read_docx(file_path: Path) -> str:
@@ -60,7 +60,7 @@ class TextSanitizer:
         - Removing null bytes and control characters
         - Normalizing whitespace
         - Removing HTML tags
-        - Truncating to max length (increased for multi-page resumes)
+        - Truncating to max length
         """
         # Remove null bytes and control characters
         text = "".join(ch for ch in text if ord(ch) >= 32 or ch in "\n\t\r")
@@ -68,8 +68,8 @@ class TextSanitizer:
         # Remove HTML tags
         text = re.sub(r"<[^>]+>", "", text)
 
-        # Normalize multiple spaces
-        text = re.sub(r"\s+", " ", text)
+        # Normalize multiple spaces (but preserve newlines for section detection)
+        text = re.sub(r"[ \t]+", " ", text)
 
         # Truncate if needed
         if len(text) > max_length:
