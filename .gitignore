@@ -1,0 +1,38 @@
+# Python environment
+.venv/
+venv/
+env/
+__pycache__/
+*.py[cod]
+*$py.class
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Testing
+tests/
+.pytest_cache/
+.coverage
+htmlcov/
+pyproject.toml
+requirements-dev.txt
+
+# Environment
+.env
+.env.local
+
+# Logs
+*.log
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Project outputs
+parsed_resume.json
+api_response.json
+sample_resume.docx
