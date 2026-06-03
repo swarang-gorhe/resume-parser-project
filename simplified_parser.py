@@ -56,7 +56,7 @@ class ResumeAgent:
     def extract_education(self, text: str) -> list:
         """Extract education entries (institution, degree, field, year)."""
         prompt = f"""Extract education information as JSON array with fields: institution, degree, field_of_study, graduation_year.
-        Resume text: {text[:1500]}"""
+        Resume text: {text[:6000]}"""
         
         response = self._infer(prompt, max_length=512)
         try:
@@ -84,7 +84,7 @@ class ResumeAgent:
     def extract_experience(self, text: str) -> list:
         """Extract work experience entries."""
         prompt = f"""Extract work experience as JSON array with: company, position, duration, description.
-        Resume text: {text[:1500]}"""
+        Resume text: {text[:10000]}"""
         
         response = self._infer(prompt, max_length=512)
         try:
@@ -98,7 +98,7 @@ class ResumeAgent:
 
     def extract_skills(self, text: str) -> dict:
         """Extract technical and soft skills."""
-        prompt = f"Extract all skills from this resume. Separate technical (Python, AWS, etc) from soft skills (leadership, communication, etc): {text[:1500]}"
+        prompt = f"Extract all skills from this resume. Separate technical (Python, AWS, etc) from soft skills (leadership, communication, etc): {text[:8000]}"
         
         response = self._infer(prompt, max_length=256)
         
